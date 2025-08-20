@@ -20,6 +20,11 @@ Cocos Creator 逆向工程工具，用于从编译后的 Cocos Creator 游戏中
 - 支持场景、预制体、动画等资源的提取
 - 生成符合 Cocos Creator 格式要求的项目文件
 
+## 版本兼容性
+
+- **Cocos Creator 1.x**：资源默认存放在 `res` 目录，工具提供完整支持。
+- **Cocos Creator 2.x / 3.x**：资源目录调整为 `assets`，本工具已可自动识别 `res` 或 `assets` 目录并进行处理。
+
 ## 安装
 
 ### 全局安装

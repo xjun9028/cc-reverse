@@ -40,8 +40,8 @@ const resourceProcessor = {
         try {
             this.resetState();
             
-            // 读取资源文件
-            await this.readFiles(global.paths.res, true);
+            // 读取资源文件（兼容 res 与 assets 目录）
+            await this.readFiles(global.paths.assets || global.paths.res, true);
             
             // 转换为输出文件
             await this.convertToOutputFiles();
@@ -106,7 +106,8 @@ const resourceProcessor = {
      */
     async processSubpackages() {
         if (global.settings && !this.isEmptyObject(global.settings["subpackages"])) {
-            const subpackagesPath = path.dirname(global.paths.res) + '/subpackages';
+            const basePath = global.paths.assets || global.paths.res;
+            const subpackagesPath = path.join(path.dirname(basePath), 'subpackages');
             
             if (fs.existsSync(subpackagesPath)) {
                 await this.readFiles(subpackagesPath, false);

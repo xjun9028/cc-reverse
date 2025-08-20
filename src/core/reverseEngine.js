@@ -32,13 +32,23 @@ async function reverseProject(options) {
   global.config = loadConfig();
   global.verbose = verbose;
   
-  // 设置资源路径
-  const resPath = path.resolve(sourcePath, 'res');
+  // 设置资源路径，兼容 1.x 的 res 目录与 2.x/3.x 的 assets 目录
+  const legacyResPath = path.resolve(sourcePath, 'res');
+  const assetsPath = path.resolve(sourcePath, 'assets');
+  let resourcePath = legacyResPath;
+  if (!fs.existsSync(legacyResPath)) {
+    if (fs.existsSync(assetsPath)) {
+      resourcePath = assetsPath;
+    } else {
+      throw new Error(`错误: 资源路径不存在: ${legacyResPath} 或 ${assetsPath}`);
+    }
+  }
+
   const settingsPath = path.resolve(sourcePath, 'src/settings.js');
   const projectPath = path.resolve(sourcePath, 'src/project.js');
-  
+
   // 检查文件是否存在
-  validatePaths(resPath, settingsPath, projectPath);
+  validatePaths(resourcePath, settingsPath, projectPath);
   
   // 创建临时目录和输出目录
   const tempPath = path.resolve(outputPath, 'temp');
@@ -51,7 +61,9 @@ async function reverseProject(options) {
   global.paths = {
     source: sourcePath,
     output: outputPath,
-    res: resPath,
+    // 兼容旧版代码，将 res 与 assets 指向同一路径
+    res: resourcePath,
+    assets: resourcePath,
     temp: tempPath,
     ast: astPath
   };
@@ -90,13 +102,13 @@ async function reverseProject(options) {
 
 /**
  * 验证路径是否存在
- * @param {string} resPath 资源路径
+ * @param {string} resourcePath 资源路径
  * @param {string} settingsPath 设置文件路径
  * @param {string} projectPath 项目文件路径
  */
-function validatePaths(resPath, settingsPath, projectPath) {
-  if (!fs.existsSync(resPath)) {
-    throw new Error(`错误: 资源路径不存在: ${resPath}`);
+function validatePaths(resourcePath, settingsPath, projectPath) {
+  if (!fs.existsSync(resourcePath)) {
+    throw new Error(`错误: 资源路径不存在: ${resourcePath}`);
   }
   
   if (!fs.existsSync(settingsPath)) {

@@ -16,6 +16,7 @@ program
   .option('-o, --output <path>', '输出路径', './output')
   .option('-v, --verbose', '显示详细日志')
   .option('-s, --silent', '静默模式，不显示进度')
+  .option('--version-hint <version>', '提示Cocos Creator版本 (2.3.x|2.4.x)', '')
   .parse(process.argv);
 
 const options = program.opts();
@@ -36,7 +37,8 @@ if (!sourcePath) {
       sourcePath: path.resolve(sourcePath),
       outputPath: path.resolve(options.output),
       verbose: options.verbose,
-      silent: options.silent
+      silent: options.silent,
+      versionHint: options.versionHint
     });
     logger.success('逆向工程完成！');
   } catch (err) {

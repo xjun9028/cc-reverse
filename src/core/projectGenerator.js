@@ -66,14 +66,30 @@ const projectGenerator = {
      * @returns {Object} 项目配置对象
      */
     createProjectConfig(name = "project") {
+        // 根据检测到的版本设置相应的版本号
+        const version = this.getProjectVersion();
+        
         return {
             "engine": "cocos-creator-js",
             "packages": "packages",
             "name": name,
             "id": uuidUtils.decodeUuid(uuidUtils.generateUuid()),
-            "version": "2.3.4",
+            "version": version,
             "isNew": false
         };
+    },
+
+    /**
+     * 获取项目版本号
+     * @returns {string} 版本号
+     */
+    getProjectVersion() {
+        // 根据全局检测到的版本返回相应的版本号
+        if (global.cocosVersion === '2.4.x') {
+            return "2.4.13"; // 2.4.x系列的最新稳定版本
+        } else {
+            return "2.3.4"; // 默认2.3.x版本
+        }
     },
 
     /**

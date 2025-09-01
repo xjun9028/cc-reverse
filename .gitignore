@@ -124,3 +124,9 @@ temp/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Claude Code files
+.claude/
+*.claude
+.claude_history
+.claude_context

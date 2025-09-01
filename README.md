@@ -19,6 +19,19 @@ Cocos Creator 逆向工程工具，用于从编译后的 Cocos Creator 游戏中
 - 处理 UUID 和元数据信息
 - 支持场景、预制体、动画等资源的提取
 - 生成符合 Cocos Creator 格式要求的项目文件
+- **支持 Cocos Creator 2.3.x 和 2.4.x 版本自动检测**
+
+## 版本支持
+
+### Cocos Creator 2.3.x 及以下
+- 文件结构：`src/settings.js`, `src/project.js`, `res/` 目录
+- 自动检测并使用相应的解析逻辑
+
+### Cocos Creator 2.4.x
+- 文件结构：支持多种构建输出格式
+- 资源路径：`assets/` 或 `res/` 目录
+- 配置文件：`main.js`, `settings.js`, `project.js` 等
+- 使用 `--version-hint 2.4.x` 强制指定版本
 
 ## 安装
 
@@ -52,12 +65,13 @@ npm start -- --path <源项目路径>
 
 ```
 选项:
-  -V, --version       显示版本号
-  -p, --path <path>   源项目路径
-  -o, --output <path> 输出路径 (默认: "./output")
-  -v, --verbose       显示详细日志
-  -s, --silent        静默模式，不显示进度
-  -h, --help          显示帮助信息
+  -V, --version            显示版本号
+  -p, --path <path>        源项目路径
+  -o, --output <path>      输出路径 (默认: "./output")
+  -v, --verbose            显示详细日志
+  -s, --silent             静默模式，不显示进度
+  --version-hint <version> 提示Cocos Creator版本 (2.3.x|2.4.x)
+  -h, --help               显示帮助信息
 ```
 
 ### 示例
@@ -74,6 +88,12 @@ cc-reverse --path ./games/sample-game --verbose
 
 # 静默模式
 cc-reverse --path ./games/sample-game --silent
+
+# 指定Cocos Creator版本(当自动检测失败时)
+cc-reverse --path ./games/sample-game --version-hint 2.4.x
+
+# 处理2.4.x版本项目
+cc-reverse --path ./games/cocos24x-game --version-hint 2.4.x --verbose
 ```
 
 ### 配置文件

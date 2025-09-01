@@ -130,3 +130,4 @@ temp/
 *.claude
 .claude_history
 .claude_context
+CLAUDE.md
